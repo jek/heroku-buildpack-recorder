@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+BUILD_DIR="$1"
+CACHE_DIR="$2"
+ENV_DIR="$3"
+
+OUT=${BUILD_DIR}/recorder.txt
+
+echo "ENV: " > ${OUT}
+env >> ${OUT}
+echo -e "\n\n" >> ${OUT}
+echo "Heroku Config via ${ENV_DIR}:" >> $OUT
+
+if [ -d "$ENV_DIR" ]; then
+    for k in $(ls $ENV_DIR); do
+        echo -e "${k}\t\t$(cat $ENV_DIR/$k)" >> $OUT
+    done
+fi
+
+echo "      Recorded build environment to recorder.txt"
+
